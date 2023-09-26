@@ -1,0 +1,20 @@
+version: '3'
+
+services:
+  llama-model:
+    image: ghcr.io/huggingface/text-generation-inference:1.0.3
+    environment:
+      - HUGGING_FACE_HUB_TOKEN=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
+    command: ["--model-id", "meta-llama/Llama-2-13b-chat-hf"]
+    ports:
+      - "8080:80"
+    volumes:
+      - ./data:/data
+    deploy:
+      resources:
+        reservations:
+          devices:
+          - driver: nvidia
+            count: all
+            capabilities: [gpu]
+    shm_size: '1g'
